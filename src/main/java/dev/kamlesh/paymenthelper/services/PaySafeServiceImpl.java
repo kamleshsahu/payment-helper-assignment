@@ -21,13 +21,13 @@ import java.util.UUID;
 @Service
 @Log4j2
 public class PaySafeServiceImpl {
-    PaySafeService service;
-    CustomerRepository repository;
+    private final PaySafeService service;
+    private final CustomerRepository repository;
 
     @Autowired
     public PaySafeServiceImpl(Retrofit retrofit, CustomerRepository customerRepository) {
         this.repository = customerRepository;
-        service = retrofit.create(PaySafeService.class);
+        this.service = retrofit.create(PaySafeService.class);
     }
 
     public ProcessPaymentResponse processPayment(String id, ProcessPaymentRequest body) throws IOException,PaySafeException {
@@ -61,14 +61,14 @@ public class PaySafeServiceImpl {
         }
     }
 
-    SingleUseTokenRequest getRequestForSingleToken() {
+    private SingleUseTokenRequest getRequestForSingleToken() {
         return SingleUseTokenRequest
                 .builder()
                 .paymentTypes(Collections.singletonList("CARD"))
                 .build();
     }
 
-    String createCustomerProfile(String id) throws IOException, PaySafeException {
+    private String createCustomerProfile(String id) throws IOException, PaySafeException {
         CreateProfileRequest request = CreateProfileRequest
                 .builder().merchantCustomerId(id).build();
         Response<CreateProfileResponse> response = service.createCustomerProfile(request).execute();

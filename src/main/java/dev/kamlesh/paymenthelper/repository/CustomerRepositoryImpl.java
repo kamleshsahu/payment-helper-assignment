@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository{
-  DynamoDBMapper mapper;
+    private final DynamoDBMapper mapper;
 
     @Autowired
     public CustomerRepositoryImpl(DynamoDBMapper dynamoDBMapper) {
