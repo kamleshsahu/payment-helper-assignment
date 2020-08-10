@@ -6,21 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CustomerRepositoryImpl implements CustomerRepository{
+public class CustomerRepositoryImpl implements CustomerRepository {
     private final DynamoDBMapper mapper;
 
     @Autowired
     public CustomerRepositoryImpl(DynamoDBMapper dynamoDBMapper) {
-        this.mapper=dynamoDBMapper;
+        this.mapper = dynamoDBMapper;
     }
 
     @Override
     public String getPaySafeCustomerId(String id) {
-        CustomersMap item =  mapper.load(CustomersMap.class,id);
-        if(item!=null){
-            return item.getCustomerId();
+        CustomersMap item = mapper.load(CustomersMap.class, id);
+        if (item == null) {
+            return null;
         }
-        return null;
+        return item.getCustomerId();
     }
 
     @Override
